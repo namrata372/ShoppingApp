@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "100161726684",
+    "project_id": "shoppingapp-9b525",
+    "storage_bucket": "shoppingapp-9b525.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100161726684:android:680482396b6533b7aaac19",
+        "android_client_info": {
+          "package_name": "com.example.shopping_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100161726684-m565mnu0gb9ib1n7fmquqhjn2a1bvjft.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shopping_app",
+            "certificate_hash": "8ba84974dba46d3191200d74ca205f850f99117c"
+          }
+        },
+        {
+          "client_id": "100161726684-fbraugci35p7s1jldamtkghr1n042161.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvV9wUIr5Oxr1dQE2qE6BWFGqGTGlOJkY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100161726684-fbraugci35p7s1jldamtkghr1n042161.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
