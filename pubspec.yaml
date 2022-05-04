@@ -45,7 +45,6 @@ dependencies:
   badges: ^2.0.2
   backdrop: ^0.7.1
   #carousel_pro: ^1.0.0
-  #flutter_swiper: ^1.1.6
   carousel_slider: ^4.0.0
   cached_network_image: ^3.0.0
   wave: ^0.2.0
@@ -56,8 +55,9 @@ dependencies:
   cloud_firestore: ^3.1.9
   firebase_storage: ^8.1.0
   uuid: ^3.0.4
-  progress_dialog: ^1.2.2
   fluttertoast: ^8.0.7
+  path_provider: ^2.0.9
+  sqflite: ^2.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

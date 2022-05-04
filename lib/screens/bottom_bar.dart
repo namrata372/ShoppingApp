@@ -86,6 +86,8 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                     label: 'Cart'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.account_box), label: 'User'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.post_add_sharp), label: 'Add Product'),
               ],
             ),
           ),

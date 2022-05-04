@@ -1,12 +1,8 @@
-import 'package:shopping_app/consts/colors.dart';
-/*import 'package:shopping_app/provider/dark_theme_provider.dart';
-import 'package:shopping_app/screens/cart/cart.dart';
-import 'package:shopping_app/screens/wishlist/wishlist.dart';*/
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-//import 'orders/order.dart';
+import 'package:shopping_app/data/consts/colors.dart';
+import 'package:shopping_app/screens/orders/order.dart';
 
 class UserInfo extends StatefulWidget {
   @override
@@ -53,7 +49,6 @@ class _UserInfoState extends State<UserInfo> {
         _phoneNumber = user.phoneNumber.toString();
         //_joinedAt = userDoc.get('joinedAt');
         //_phoneNumber = userDoc.get('phoneNumber');
-        // _userImageUrl = userDoc.get('imageUrl');
       });
     }
     // print("name $_name");
@@ -91,6 +86,19 @@ class _UserInfoState extends State<UserInfo> {
                     ),
                     child: FlexibleSpaceBar(
                       // collapseMode: CollapseMode.parallax,
+                      background: Center(
+                        child: Container(
+                          padding: const EdgeInsets.all(8.0),
+                          height: 140,
+                          width: 140,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(70)),
+                            child: Image(
+                                fit: BoxFit.contain,
+                                image: NetworkImage(_userImageUrl)),
+                          ),
+                        ),
+                      ),
                       centerTitle: true,
                       title: AnimatedOpacity(
                         duration: Duration(milliseconds: 300),
@@ -131,12 +139,6 @@ class _UserInfoState extends State<UserInfo> {
                           ],
                         ),
                       ),
-                      background: Image(
-                        image: NetworkImage(_userImageUrl
-                            // 'https://t3.ftcdn.net/jpg/01/83/55/76/240_F_183557656_DRcvOesmfDl5BIyhPKrcWANFKy2964i9.jpg'
-                            ),
-                        fit: BoxFit.fill,
-                      ),
                     ),
                   );
                 }),
@@ -146,42 +148,13 @@ class _UserInfoState extends State<UserInfo> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /* Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: userTitle(title: 'User Bag')),
-                    Divider(
-                      thickness: 1,
-                      color: Colors.grey,
-                    ),
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () => {},
-                        */ /*Navigator.of(context)
-                            .pushNamed(WishlistScreen.routeName),*/ /*
-                        splashColor: Colors.red,
-                        child: ListTile(
-                          title: Text('Wishlist'),
-                          trailing: Icon(Icons.chevron_right_rounded),
-                          leading: Icon(Icons.add_box),
-                        ),
-                      ),
-                    ),
                     ListTile(
-                      onTap: () {
-                        //Navigator.of(context).pushNamed(CartScreen.routeName);
-                      },
-                      title: Text('Cart'),
-                      trailing: Icon(Icons.chevron_right_rounded),
-                      leading: Icon(Icons.shopping_cart),
-                    ),
-                    ListTile(
-                      onTap: () =>
-                          {}, //Navigator.of(context).pushNamed(OrderScreen.routeName),
+                      onTap: () => Navigator.of(context)
+                          .pushNamed(OrderScreen.routeName),
                       title: Text('My Orders'),
                       trailing: Icon(Icons.chevron_right_rounded),
                       leading: Icon(Icons.shopping_bag),
-                    ),*/
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: userTitle(title: 'User Information'),

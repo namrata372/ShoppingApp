@@ -1,11 +1,11 @@
-import 'package:shopping_app/consts/colors.dart';
+import 'package:shopping_app/data/consts/colors.dart';
 import 'package:shopping_app/screens/bottom_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shopping_app/services/global_method.dart';
+import 'package:shopping_app/Utils/global_method.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -16,12 +16,7 @@ class _LandingPageState extends State<LandingPage>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
-  /*List<String> images = [
-    'https://media.istockphoto.com/photos/man-at-the-shopping-picture-id868718238?k=6&m=868718238&s=612x612&w=0&h=ZUPCx8Us3fGhnSOlecWIZ68y3H4rCiTnANtnjHk0bvo=',
-    'https://thumbor.forbes.com/thumbor/fit-in/1200x0/filters%3Aformat%28jpg%29/https%3A%2F%2Fspecials-images.forbesimg.com%2Fdam%2Fimageserve%2F1138257321%2F0x0.jpg%3Ffit%3Dscale',
-    'https://e-shopy.org/wp-content/uploads/2020/08/shop.jpeg',
-    'https://e-shopy.org/wp-content/uploads/2020/08/shop.jpeg',
-  ];*/
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   GlobalMethods _globalMethods = GlobalMethods();
   bool _isLoading = false;
@@ -147,43 +142,20 @@ class _LandingPageState extends State<LandingPage>
       Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          /* Row(
+          SizedBox(
+            height: 30,
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              SizedBox(width: 10),
               Expanded(
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        side: BorderSide(color: ColorsConsts.backgroundColor),
-                      ),
-                    )),
-                    onPressed: () {
-                      Navigator.pushNamed(context, LoginScreen.routeName);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Login',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 17),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(
-                          Icons.account_box,
-                          size: 18,
-                        )
-                      ],
-                    )),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: ElevatedButton(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: _googleSignIn,
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(Colors.pink.shade400),
@@ -195,101 +167,10 @@ class _LandingPageState extends State<LandingPage>
                                 BorderSide(color: ColorsConsts.backgroundColor),
                           ),
                         )),
-                    onPressed: () {
-                      Navigator.pushNamed(context, SignUpScreen.routeName);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Sign up',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 17),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(
-                          Icons.add,
-                          size: 18,
-                        )
-                      ],
-                    )),
-              ),
-              SizedBox(width: 10),
-            ],
-          ),*/
-          SizedBox(
-            height: 30,
-          ),
-          /*Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Divider(
-                    color: Colors.white,
-                    thickness: 2,
+                    child: Text('Google'),
                   ),
                 ),
               ),
-              Text(
-                'Or continue with',
-                style: TextStyle(color: Colors.black),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Divider(
-                    color: Colors.white,
-                    thickness: 2,
-                  ),
-                ),
-              ),
-            ],
-          ),*/
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                onPressed: _googleSignIn,
-                // shape: StadiumBorder(),
-                // highlightedBorderColor: Colors.red.shade200,
-                // borderSide: BorderSide(width: 2, color: Colors.red),
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.pink.shade400),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        side: BorderSide(color: ColorsConsts.backgroundColor),
-                      ),
-                    )),
-                child: Text('Google'),
-              ),
-              _isLoading
-                  ? CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: () {
-                        _loginAnonymosly();
-                        // Navigator.pushNamed(context, BottomBarScreen.routeName);
-                      },
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.pink.shade400),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(
-                                  color: ColorsConsts.backgroundColor),
-                            ),
-                          )),
-                      child: Text('Sign in as a guest'),
-                    ),
             ],
           ),
           SizedBox(

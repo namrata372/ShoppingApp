@@ -1,18 +1,25 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/data/repository/DataProductRepository.dart';
 import 'package:shopping_app/screens/bottom_bar.dart';
 import 'package:shopping_app/screens/cart/cart.dart';
 import 'package:shopping_app/screens/landing_page.dart';
+import 'package:shopping_app/screens/orders/order.dart';
 import 'package:shopping_app/screens/product_details.dart';
 import 'package:shopping_app/screens/upload_product_form.dart';
 import 'package:shopping_app/screens/user_state.dart';
 import 'package:shopping_app/viewmodel/cart_provider.dart';
-import 'package:shopping_app/viewmodel/products.dart';
+
+import 'viewmodel/orders_provider.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 
@@ -35,6 +42,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return MaterialApp(
+              debugShowCheckedModeBanner: false,
               home: Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(),
@@ -43,6 +51,7 @@ class _MyAppState extends State<MyApp> {
             );
           } else if (snapshot.hasError) {
             MaterialApp(
+              debugShowCheckedModeBanner: false,
               home: Scaffold(
                 body: Center(
                   child: Text('Error occured'),
@@ -75,18 +84,18 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider(
                 create: (_) => CartProvider(),
               ),
+              ChangeNotifierProvider(
+                create: (_) => OrdersProvider(),
+              ),
             ],
-            child: Consumer<CartProvider>(
+            child: Consumer<Products>(
               builder: (context, themeChangeProvider, ch) {
                 return MaterialApp(
                   title: 'Flutter Shop',
-
+                  debugShowCheckedModeBanner: false,
                   home: UserState(),
                   //initialRoute: '/',
                   routes: {
-                    //   '/': (ctx) => LandingPage(),
-
-                    // '/': (ctx) => LandingPage(),
                     CartScreen.routeName: (ctx) => CartScreen(),
                     // Feeds.routeName: (ctx) => Feeds(),
                     //WishlistScreen.routeName: (ctx) => WishlistScreen(),
@@ -94,7 +103,7 @@ class _MyAppState extends State<MyApp> {
                     //CategoriesFeedsScreen.routeName: (ctx) => CategoriesFeedsScreen(),
                     BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
                     UploadProductForm.routeName: (ctx) => UploadProductForm(),
-                    // OrderScreen.routeName: (ctx) => OrderScreen(),
+                    OrderScreen.routeName: (ctx) => OrderScreen(),
                   },
                 );
               },

@@ -1,13 +1,11 @@
 import 'dart:ui';
 import 'package:badges/badges.dart';
 import 'package:provider/provider.dart';
-import 'package:shopping_app/consts/colors.dart';
-
 import 'package:flutter/material.dart';
-import 'package:shopping_app/models/product.dart';
+import 'package:shopping_app/data/consts/colors.dart';
+import 'package:shopping_app/data/models/product.dart';
 import 'package:shopping_app/screens/cart/cart.dart';
 import 'package:shopping_app/viewmodel/cart_provider.dart';
-import 'package:shopping_app/viewmodel/products.dart';
 
 class ProductDetails extends StatefulWidget {
   static const routeName = '/ProductDetails';
@@ -21,22 +19,18 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
-    //final productsData = Provider.of<Products>(context, listen: false);
-    final productsData = ModalRoute.of(context)?.settings.arguments as Product;
+    final prodAttr = ModalRoute.of(context)?.settings.arguments as Product;
     final cartProvider = Provider.of<CartProvider>(context);
-
-    /* final cartProvider1 =
-        ModalRoute.of(context)?.settings.arguments as CartProvider;*/
 
     return Scaffold(
       body: Stack(
         children: <Widget>[
           Container(
             foregroundDecoration: BoxDecoration(color: Colors.black12),
-            height: MediaQuery.of(context).size.height * 0.45,
+            height: MediaQuery.of(context).size.height * 0.35,
             width: double.infinity,
             child: Image.network(
-              productsData.imageUrl,
+              prodAttr.imageUrl,
             ),
           ),
           SingleChildScrollView(
@@ -45,46 +39,6 @@ class _ProductDetailsState extends State<ProductDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 250),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          splashColor: Colors.purple.shade200,
-                          onTap: () {},
-                          borderRadius: BorderRadius.circular(30),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.save,
-                              size: 23,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          splashColor: Colors.purple.shade200,
-                          onTap: () {},
-                          borderRadius: BorderRadius.circular(30),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.share,
-                              size: 23,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 Container(
                   //padding: const EdgeInsets.all(16.0),
                   color: Theme.of(context).scaffoldBackgroundColor,
@@ -99,7 +53,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             Container(
                               width: MediaQuery.of(context).size.width * 0.9,
                               child: Text(
-                                productsData.title,
+                                prodAttr.title,
                                 maxLines: 2,
                                 style: TextStyle(
                                   // color: Theme.of(context).textSelectionColor,
@@ -112,7 +66,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               height: 8,
                             ),
                             Text(
-                              'US \$ ${productsData.price}',
+                              'US \$ ${prodAttr.price}',
                               style: TextStyle(
                                   /* color: themeState.darkTheme
                                       ? Theme.of(context).disabledColor
@@ -137,7 +91,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
-                          productsData.description,
+                          prodAttr.description,
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 21.0,
@@ -156,11 +110,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                           height: 1,
                         ),
                       ),
-                      _details('Brand: ', productsData.brand),
-                      _details('Quantity: ', '${productsData.quantity}'),
-                      _details('Category: ', productsData.productCategoryName),
+                      _details('Brand: ', prodAttr.brand),
+                      // _details('Quantity: ', '${prodAttr.brand}'),
+                      _details('Category: ', prodAttr.productCategoryName),
                       _details('Popularity: ',
-                          productsData.isPopular ? 'Popular' : 'Barely known'),
+                          prodAttr.isPopular ? 'Popular' : 'Barely known'),
                       SizedBox(
                         height: 15,
                       ),
@@ -192,28 +146,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                       TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
                 ),
                 actions: <Widget>[
-                  /*  Consumer<FavsProvider>(
-                    builder: (_, favs, ch) => Badge(
-                      badgeColor: ColorsConsts.cartBadgeColor,
-                      animationType: BadgeAnimationType.slide,
-                      toAnimate: true,
-                      position: BadgePosition.topEnd(top: 5, end: 7),
-                      badgeContent: Text(
-                        favs.getFavsItems.length.toString(),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          MyAppIcons.wishlist,
-                          color: ColorsConsts.favColor,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(WishlistScreen.routeName);
-                        },
-                      ),
-                    ),
-                  ),*/
                   Consumer<CartProvider>(
                     builder: (_, cart, ch) => Badge(
                       badgeColor: ColorsConsts.cartBadgeColor,
@@ -249,20 +181,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                       shape: RoundedRectangleBorder(side: BorderSide.none),
                       color: Colors.redAccent.shade400,
                       onPressed:
-                          cartProvider.getCartItems.containsKey(productsData.id)
+                          cartProvider.getCartItems.containsKey(prodAttr.id)
                               ? () {}
                               : () {
                                   cartProvider.addProductToCart(
-                                      productsData.id,
-                                      productsData.price,
-                                      productsData.title,
-                                      productsData.imageUrl);
+                                      prodAttr.id,
+                                      prodAttr.price.toString(),
+                                      prodAttr.title,
+                                      prodAttr.imageUrl);
                                 },
                       child: Text(
-                        /* cartProvider.getCartItems.containsKey(productId)
+                        cartProvider.getCartItems.containsKey(prodAttr.id)
                             ? 'In cart'
-                            : */
-                        'Add to Cart'.toUpperCase(),
+                            : 'Add to Cart'.toUpperCase(),
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/consts/colors.dart';
+import 'package:flutter/painting.dart';
+import 'package:shopping_app/data/consts/colors.dart';
 
 class BackLayerMenu extends StatelessWidget {
+  String _userImageUrl = '';
+  BackLayerMenu(this._userImageUrl);
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -90,26 +93,19 @@ class BackLayerMenu extends StatelessWidget {
                 Center(
                   child: Container(
                     padding: const EdgeInsets.all(8.0),
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        color: Colors.indigo,
-                        borderRadius: BorderRadius.circular(10.0)),
-                    child: Container(
-                      //   clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                'https://cdn1.vectorstock.com/i/thumb-large/62/60/default-avatar-photo-placeholder-profile-image-vector-21666260.jpg'),
-                            fit: BoxFit.fill,
-                          )),
+                    height: 140,
+                    width: 140,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(70)),
+                      child: Image(
+                          fit: BoxFit.contain,
+                          image: NetworkImage(_userImageUrl)),
                     ),
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                /* content(context, () {
-                  navigateTo(context, Feeds.routeName);
+                /*   content(context, () {
+                  navigateTo(context, CartScreen.routeName);
                 }, 'Feeds', 0),
                 const SizedBox(height: 10.0),
                 content(context, () {
@@ -117,7 +113,7 @@ class BackLayerMenu extends StatelessWidget {
                 }, 'Cart', 1),
                 const SizedBox(height: 10.0),
                 content(context, () {
-                  navigateTo(context, Feeds.routeName);
+                  navigateTo(context, UploadProductForm.routeName);
                 }, 'Wishlist', 2),
                 const SizedBox(height: 10.0),
                 content(context, () {

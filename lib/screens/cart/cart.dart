@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopping_app/services/global_method.dart';
+import 'package:shopping_app/Utils/global_method.dart';
+import 'package:shopping_app/data/consts/colors.dart';
+import 'package:shopping_app/screens/orders/order.dart';
 import 'package:shopping_app/viewmodel/cart_provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -37,7 +41,7 @@ class _CartScreenState extends State<CartScreen> {
         : Scaffold(
             bottomSheet: checkoutSection(context, cartProvider.totalAmount),
             appBar: AppBar(
-              backgroundColor: Colors.indigo,
+              backgroundColor: ColorsConsts.cartColor,
               title: Text('Cart (${cartProvider.getCartItems.length})'),
               actions: [
                 IconButton(
@@ -63,12 +67,6 @@ class _CartScreenState extends State<CartScreen> {
                       child: CartFull(
                         productId:
                             cartProvider.getCartItems.keys.toList()[index],
-                        // id:  cartProvider.getCartItems.values.toList()[index].id,
-                        // productId: cartProvider.getCartItems.keys.toList()[index],
-                        // price: cartProvider.getCartItems.values.toList()[index].price,
-                        // title: cartProvider.getCartItems.values.toList()[index].title,
-                        // imageUrl: cartProvider.getCartItems.values.toList()[index].imageUrl,
-                        // quatity: cartProvider.getCartItems.values.toList()[index].quantity,
                       ),
                     );
                   }),
@@ -92,21 +90,21 @@ class _CartScreenState extends State<CartScreen> {
             /// mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                flex: 2,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.indigo,
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
+                  flex: 2,
+                  child: Container(
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      onTap: () async {
-                        double amountInCents = subtotal * 1000;
-                        int intengerAmount = (amountInCents / 10).ceil();
-                        // await payWithCard(amount: intengerAmount);
-                        if (response.success == true) {
+                      color: Colors.indigo,
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(30),
+                        onTap: () async {
+                          double amountInCents = subtotal * 1000;
+                          int intengerAmount = (amountInCents / 10).ceil();
+                          // await payWithCard(amount: intengerAmount);
+                          //if (response.success == true) {
                           User? user = _auth.currentUser;
                           final _uid = user!.uid;
                           cartProvider.getCartItems
@@ -121,36 +119,40 @@ class _CartScreenState extends State<CartScreen> {
                                 'userId': _uid,
                                 'productId': orderValue.productId,
                                 'title': orderValue.title,
-                                'price': orderValue.price * orderValue.quantity,
+                                'price': double.parse(orderValue.price) *
+                                    orderValue.quantity,
                                 'imageUrl': orderValue.imageUrl,
                                 'quantity': orderValue.quantity,
                                 'orderDate': Timestamp.now(),
                               });
+
+                              cartProvider.clearCart();
+                              Navigator.of(context)
+                                  .pushReplacementNamed(OrderScreen.routeName);
                             } catch (err) {
                               print('error occured $err');
                             }
                           });
-                        } else {
-                          globalMethods.authErrorHandle(
-                              'Please enter your true information', context);
-                        }
-                      },
-                      splashColor: Theme.of(ctx).splashColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Checkout',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Theme.of(ctx).textSelectionColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600),
+                          /* } else {
+                            globalMethods.authErrorHandle(
+                                'Please enter your true information', context);
+                          }*/
+                        },
+                        splashColor: Theme.of(ctx).splashColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Checkout',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Theme.of(ctx).textSelectionColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ),
+                  )),
               Spacer(),
               Text(
                 'Total:',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/screens/bottom_bar.dart';
 
 class CartEmpty extends StatelessWidget {
   @override
@@ -42,7 +43,7 @@ class CartEmpty extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.06,
           child: RaisedButton(
             onPressed: () {
-              // Navigator.of(context).pushNamed(Feeds.routeName);
+              Navigator.of(context).pushNamed(BottomBarScreen.routeName);
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),

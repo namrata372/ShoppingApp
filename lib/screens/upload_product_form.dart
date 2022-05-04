@@ -6,8 +6,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shopping_app/consts/colors.dart';
-import 'package:shopping_app/services/global_method.dart';
+import 'package:shopping_app/Utils/global_method.dart';
+import 'package:shopping_app/data/consts/colors.dart';
 import 'package:uuid/uuid.dart';
 
 class UploadProductForm extends StatefulWidget {
@@ -184,24 +184,11 @@ class _UploadProductFormState extends State<UploadProductForm> {
                               width: 40,
                               child: CircularProgressIndicator()))
                       : Text('Upload',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(
+                              fontSize: 16, color: ColorsConsts.white),
                           textAlign: TextAlign.center),
                 ),
-                GradientIcon(
-                  Icons.upload,
-                  20,
-                  LinearGradient(
-                    colors: <Color>[
-                      Colors.green,
-                      Colors.yellow,
-                      Colors.deepOrange,
-                      Colors.orange,
-                      Colors.yellowAccent
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
+                Icon(Icons.upload, color: ColorsConsts.white),
               ],
             ),
           ),
@@ -292,7 +279,7 @@ class _UploadProductFormState extends State<UploadProductForm> {
                                       decoration: BoxDecoration(
                                         border: Border.all(width: 1),
                                         borderRadius: BorderRadius.circular(4),
-                                        color: Colors.indigo,
+                                        color: ColorsConsts.backgroundColor,
                                       ),
                                     )
                                   : Container(
